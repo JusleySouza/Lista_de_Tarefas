@@ -1,14 +1,24 @@
 package com.task.list.model;
 
-import java.util.Date;
+import java.io.Serializable;
 import java.util.Objects;
 
-public class TaskList {
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
+@Entity
+public class TaskList implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
+	
 	private String name;
-	private Date startDate;
-	private Date finishDate;
+	private String startDate;
+	private String finishDate;
 	private String description;
 	private boolean finished;
 	
@@ -24,16 +34,16 @@ public class TaskList {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getStartDate() {
+	public String getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(Date startDate) {
+	public void setStartDate(String startDate) {
 		this.startDate = startDate;
 	}
-	public Date getFinishDate() {
+	public String getFinishDate() {
 		return finishDate;
 	}
-	public void setFinishDate(Date finishDate) {
+	public void setFinishDate(String finishDate) {
 		this.finishDate = finishDate;
 	}
 	public String getDescription() {
