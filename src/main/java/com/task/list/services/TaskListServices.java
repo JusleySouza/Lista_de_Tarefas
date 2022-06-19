@@ -11,6 +11,7 @@ public interface TaskListServices {
 
 	public List<TaskList> findAll();
 	
-	public TaskList create(TaskList taskList);
+	public TaskList findById(Long id);
 	
+	public TaskList create(TaskList taskList);
 }
