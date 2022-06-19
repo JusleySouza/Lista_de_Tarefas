@@ -17,4 +17,5 @@ public interface TaskListServices {
 	
 	public TaskList update(TaskList taskList);
 	
+	public void delete(Long id);
 }
