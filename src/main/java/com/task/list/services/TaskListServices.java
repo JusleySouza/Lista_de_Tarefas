@@ -11,4 +11,6 @@ public interface TaskListServices {
 
 	public List<TaskList> findAll();
 	
+	public TaskList create(TaskList taskList);
+	
 }
