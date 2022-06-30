@@ -25,8 +25,8 @@ public class TaskListController {
 	TaskListServices services;
 
 	@GetMapping
-	public List<Task> findAll() {
-		return services.findAll();
+	public ResponseEntity<List<TaskDTO>> findAll() {
+		return ResponseEntity.ok(services.findAll());
 	}
 
 	@GetMapping("/{id}")
@@ -40,7 +40,7 @@ public class TaskListController {
 	}
 
 	@PutMapping
-	public Task update(@RequestBody Task taskList) {
+	public ResponseEntity<Task> update(@RequestBody Task taskList) {
 		return services.update(taskList);
 	}
 
