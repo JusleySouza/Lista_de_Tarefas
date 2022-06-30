@@ -7,20 +7,21 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.task.list.model.Task;
 
 public class TaskDTO {
 
-	private long id;
+	private Long id;
 	private String name;
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
 	private Date finishDate;
 	private String description;
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -66,6 +67,11 @@ public class TaskDTO {
 				&& id == other.id && Objects.equals(name, other.name);
 	}
 	
-	
+	public void transformModelToDTO(Task task) {
+		this.id = task.getId();
+		this.name = task.getName();
+		this.finishDate = task.getFinishDate();
+		this.description = task.getDescription();
+	}
 	
 }
