@@ -67,11 +67,15 @@ public class TaskDTO {
 				&& id == other.id && Objects.equals(name, other.name);
 	}
 	
-	public void transformModelToDTO(Task task) {
-		this.id = task.getId();
-		this.name = task.getName();
-		this.finishDate = task.getFinishDate();
-		this.description = task.getDescription();
+	public TaskDTO transformModelToDTO(Task task) {
+		TaskDTO taskDTO = new TaskDTO();
+		
+		taskDTO.id = task.getId();
+		taskDTO.name = task.getName();
+		taskDTO.finishDate = task.getFinishDate();
+		taskDTO.description = task.getDescription();
+		
+		return taskDTO;
 	}
 	
 }
