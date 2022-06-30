@@ -1,31 +1,41 @@
 package com.task.list.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.Objects;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.task.list.dto.TaskDTO;
 
 @Entity
-public class TaskList implements Serializable{
+public class Task implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private long id;
+	private Long id;
 	
 	private String name;
-	private String startDate;
-	private String finishDate;
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
+	private Date startDate;
+	@Temporal(TemporalType.DATE)
+	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
+	private Date finishDate;
 	private String description;
 	private boolean finished;
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(long id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public String getName() {
@@ -34,16 +44,16 @@ public class TaskList implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getStartDate() {
+	public Date getStartDate() {
 		return startDate;
 	}
-	public void setStartDate(String startDate) {
+	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-	public String getFinishDate() {
+	public Date getFinishDate() {
 		return finishDate;
 	}
-	public void setFinishDate(String finishDate) {
+	public void setFinishDate(Date finishDate) {
 		this.finishDate = finishDate;
 	}
 	public String getDescription() {
@@ -79,10 +89,18 @@ public class TaskList implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		TaskList other = (TaskList) obj;
+		Task other = (Task) obj;
 		return Objects.equals(description, other.description) && Objects.equals(finishDate, other.finishDate)
 				&& finished == other.finished && id == other.id && Objects.equals(name, other.name)
 				&& Objects.equals(startDate, other.startDate);
+	}
+	
+	public void transformDTOtoModel(TaskDTO taskDTO) {
+		this.name = taskDTO.getName();
+		this.finishDate = taskDTO.getFinishDate();
+		this.description = taskDTO.getDescription();
+		this.startDate = new Date();
+		this.finished = false;
 	}
 	
 }

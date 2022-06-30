@@ -2,20 +2,22 @@ package com.task.list.services;
 
 import java.util.List;
 
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.task.list.model.TaskList;
+import com.task.list.dto.TaskDTO;
+import com.task.list.model.Task;
 
 @Service
 public interface TaskListServices {
 
-	public List<TaskList> findAll();
+	public List<TaskDTO> findAll();
 	
-	public TaskList findById(Long id);
+	public Task findById(Long id);
 	
-	public TaskList create(TaskList taskList);
+	public ResponseEntity<Task> create(TaskDTO taskDTO);
 	
-	public TaskList update(TaskList taskList);
+	public ResponseEntity<Task> update(Task taskList);
 	
-	public void delete(Long id);
+	public ResponseEntity<Task> delete(Long id);
 }
