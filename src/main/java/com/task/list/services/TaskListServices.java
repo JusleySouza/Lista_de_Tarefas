@@ -11,13 +11,13 @@ import com.task.list.model.Task;
 @Service
 public interface TaskListServices {
 
-	public List<Task> findAll();
+	public List<TaskDTO> findAll();
 	
 	public Task findById(Long id);
 	
 	public ResponseEntity<Task> create(TaskDTO taskDTO);
 	
-	public Task update(Task taskList);
+	public ResponseEntity<Task> update(Task taskList);
 	
 	public ResponseEntity<Task> delete(Long id);
 }
