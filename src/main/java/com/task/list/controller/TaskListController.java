@@ -1,11 +1,13 @@
 package com.task.list.controller;
 
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,7 +32,7 @@ public class TaskListController {
 	}
 
 	@GetMapping("/{id}")
-	public Task findById(@PathVariable("id") Long id) {
+	public Task findById(@PathVariable("id") UUID id) {
 		return services.findById(id);
 	}
 
@@ -45,8 +47,13 @@ public class TaskListController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity<Task> delete(@PathVariable("id") Long id) {
+	public ResponseEntity<Task> delete(@PathVariable("id") UUID id) {
 		return services.delete(id);
-
 	}
+	
+	@PutMapping("/{id}")
+	public ResponseEntity<Task> updateFinished (@PathVariable("id") UUID id){
+		return services.updateFinished(id) ;
+	}
+
 }
