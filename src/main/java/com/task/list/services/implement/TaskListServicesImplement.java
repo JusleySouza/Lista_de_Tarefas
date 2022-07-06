@@ -2,6 +2,7 @@ package com.task.list.services.implement;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,7 +34,7 @@ public class TaskListServicesImplement implements TaskListServices {
 	}
 
 	@Override
-	public Task findById(Long id) {
+	public Task findById(UUID id) {
 		return repository.findById(id).orElse(new Task());
 	}
 
@@ -62,8 +63,21 @@ public class TaskListServicesImplement implements TaskListServices {
 	}
 
 	@Override
-	public ResponseEntity<Task> delete(Long id) {
+	public ResponseEntity<Task> delete(UUID id) {
 		repository.deleteById(id);
 		return new ResponseEntity<Task>(HttpStatus.NO_CONTENT);
+	}
+
+	@Override
+	public ResponseEntity<Task> updateFinished(UUID id) {
+		Task entity = repository.findById(task.getId()).orElse(new Task());
+		
+		if (entity.getId() == null) {
+			return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
+		} else {
+			entity.setFinished(true);
+			repository.save(entity);
+			return new ResponseEntity<Task>(repository.save(entity), HttpStatus.OK);
+		}
 	}
 }

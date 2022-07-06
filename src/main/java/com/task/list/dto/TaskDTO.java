@@ -1,7 +1,7 @@
 package com.task.list.dto;
 
 import java.util.Date;
-import java.util.Objects;
+import java.util.UUID;
 
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -20,7 +20,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class TaskDTO {
 
-	private Long id;
+	private UUID id;
 	private String name;
 	@Temporal(TemporalType.DATE)
 	@JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
