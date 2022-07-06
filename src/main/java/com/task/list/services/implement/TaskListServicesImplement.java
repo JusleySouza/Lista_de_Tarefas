@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 
 import com.task.list.dto.TaskDTO;
+import com.task.list.exception.ResourceNotFoundException;
 import com.task.list.model.Task;
 import com.task.list.repository.TaskListRepository;
 import com.task.list.services.TaskListServices;
@@ -35,7 +36,7 @@ public class TaskListServicesImplement implements TaskListServices {
 
 	@Override
 	public Task findById(UUID id) {
-		return repository.findById(id).orElse(new Task());
+		return repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(" Task nao Localizada"));
 	}
 
 	@Override
@@ -48,36 +49,30 @@ public class TaskListServicesImplement implements TaskListServices {
 
 	@Override
 	public ResponseEntity<Task> update(Task task) {
-		Task entity = repository.findById(task.getId()).orElse(new Task());
-		if (entity.getId() == null) {
-			return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
-		} else {
-			entity.setFinishDate(task.getFinishDate());
-			entity.setStartDate(task.getStartDate());
-			entity.setDescription(task.getDescription());
-			entity.setId(task.getId());
-			entity.setName(task.getName());
-			entity.setFinished(task.isFinished());
-			return new ResponseEntity<Task>(repository.save(task), HttpStatus.ACCEPTED);
-		}
+		Task entity = repository.findById(task.getId())
+				.orElseThrow(() -> new ResourceNotFoundException(" Task nao Localizada"));
+		entity.setFinishDate(task.getFinishDate());
+		entity.setStartDate(task.getStartDate());
+		entity.setDescription(task.getDescription());
+		entity.setId(task.getId());
+		entity.setName(task.getName());
+		entity.setFinished(task.isFinished());
+		return new ResponseEntity<Task>(repository.save(task), HttpStatus.ACCEPTED);
 	}
 
 	@Override
 	public ResponseEntity<Task> delete(UUID id) {
-		repository.deleteById(id);
+		Task entity = repository.findById(id)
+				.orElseThrow(() -> new ResourceNotFoundException(" Task nao Localizada"));
+		repository.delete(entity);
 		return new ResponseEntity<Task>(HttpStatus.NO_CONTENT);
 	}
 
 	@Override
 	public ResponseEntity<Task> updateFinished(UUID id) {
-		Task entity = repository.findById(id).orElse(new Task());
-		
-		if (entity.getId() == null) {
-			return new ResponseEntity<Task>(HttpStatus.NOT_FOUND);
-		} else {
-			entity.setFinished(true);
-			repository.save(entity);
-			return new ResponseEntity<Task>(repository.save(entity), HttpStatus.OK);
-		}
+		Task entity = repository.findById(id).orElseThrow(() -> new ResourceNotFoundException(" Task nao Localizada"));
+
+		entity.setFinished(true);
+		return new ResponseEntity<Task>(repository.save(entity), HttpStatus.OK);
 	}
 }
